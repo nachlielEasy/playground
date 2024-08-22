@@ -1,24 +1,32 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function Home() {
+function SearchParamsList() {
   const searchParams = useSearchParams();
 
   return (
-    <main>
-      <h1>Search Parameters</h1>
-      <ul>
-        {Array.from(searchParams.entries()).map(([key, value]) => (
-          <li key={key}>
-            <strong>{key}:</strong> {value}
-          </li>
-        ))}
-      </ul>
-    </main>
+    <ul>
+      {Array.from(searchParams.entries()).map(([key, value]) => (
+        <li key={key}>
+          <strong>{key}:</strong> {value}
+        </li>
+      ))}
+    </ul>
   );
 }
 
+export default function Home() {
+  return (
+    <main>
+      <h1>Search Parameters</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchParamsList />
+      </Suspense>
+    </main>
+  );
+}
 // Server Component
 // export default function Home({ searchParams }) {
 //   return (
